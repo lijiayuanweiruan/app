@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>游戏</title>
+</head>
+
+<body>
+    <iframe id='iframe' src="" scrolling="no" frameborder="0" style="  position:absolute;left:0px;top:0px;" marginheight="0" marginwidth="0"></iframe>
+</body>
+<script type="text/javascript" src="../script/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script>
+    apiready = function() {
+        UILoading = api.require('UILoading');
+        // api.setFullScreen({
+        //     fullScreen: true,
+        // });
+        //渠道号
+        var username = localStorage.getItem('user_name');
+        var timestamp = Date.parse(new Date())/1000;
+        // var channel_id = localStorage.getItem('channel_id');
+        // console.log(channel_id);
+        // if(channel_id){
+        //   // console.log(11111);
+        //   var param = api.pageParam;
+        //   var h = api.winHeight,
+        //       w = api.winWidth,
+        //       url = 'http://'+channel_id+'.h5.zyttx.com'
+        //   $('#iframe').attr('src', url);
+        //   $('#iframe').css('height', h);
+        //   $('#iframe').css('width', w);
+        // }else{
+          // console.log(22222);
+          var api_url = localStorage.getItem('api_url');
+          // console.log(api_url+'/login/login/getchannelid');
+          api.ajax({
+              url: api_url+'/login/login/getchannelid',
+              method: 'get',
+          },function(ret, err){
+              // console.log(JSON.stringify(ret));
+              // console.log(JSON.stringify(err));
+              if (ret.code==1) {
+                 localStorage.setItem('channel_id',ret.data);
+                 channel_id=ret.data;
+                 var param = api.pageParam;
+                 var h = api.winHeight,
+                     w = api.winWidth,
+                     url = 'http://'+channel_id+'.h5.zyttx.com'
+                 $('#iframe').attr('src', url);
+                 $('#iframe').css('height', h);
+                 $('#iframe').css('width', w);
+              }
+          });
+        // }
+    }
+</script>
+
+</html>
